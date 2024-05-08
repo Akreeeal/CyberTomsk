@@ -23,7 +23,7 @@ class ReservationsList(ListView):
 
 class ReservationView(FormView):
     form_class = AvailabilityForm
-    template_name = 'availability_form.html'
+    template_name = 'club/availability_form.html'
 
     def form_valid(self, form):
         data = form.cleaned_data
@@ -44,3 +44,5 @@ class ReservationView(FormView):
             return HttpResponse(reservation)
         else:
             return HttpResponse('NON-Done')
+
+
