@@ -1,8 +1,10 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import HttpResponse
 from django.views.generic import ListView, FormView
 from .models import Computer, Reservation
 from .forms import AvailabilityForm
 # from reservations_functions.availability import check_availability
+
+# Create your views here.
 
 def check_availability(computer, start_session, stop_session):
     avail_list = []
@@ -13,8 +15,6 @@ def check_availability(computer, start_session, stop_session):
         else:
             avail_list.append(False)
     return all(avail_list)
-
-# Create your views here.
 class ComputersList(ListView):
     model = Computer
 
@@ -27,21 +27,22 @@ class ReservationView(FormView):
 
     def form_valid(self, form):
         data = form.cleaned_data
-        computer_list = Computer.objects.filter(category=data['computer_category'])
+        computer_list = Computer.objects.filter(category=data['pc_category'])
         available_computers = []
         for computer in computer_list:
             if check_availability(computer, data['start_session'], data['stop_session']):
                 available_computers.append(computer)
         if len(available_computers) > 0:
             computer = available_computers[0]
-            reservation = Reservation.object.create(
-                user=self.request.user,
+            reserve = Reservation.objects.create(
+                # user=self.request.user,
+                # user = None,
                 computer=computer,
                 start_session=data['start_session'],
                 stop_session=data['stop_session']
             )
-            reservation.save()
-            return HttpResponse(reservation)
+            reserve.save()
+            return HttpResponse(reserve)
         else:
             return HttpResponse('NON-Done')
 
