@@ -2,9 +2,10 @@ from django.db import models
 from django.conf import settings
 class Computer(models.Model):
     PC_CATEGORIES=(
+        ('STD', 'STANDARD'),
         ('VIP', 'VIP'),
-        ('NVIP', 'NON_VIP'),
-        ('BC', 'BOOT_CAMP')
+        ('BTC', 'BOOTCAMP'),
+        ('PS5', 'PLAYSTATION')
     )
     category = models.CharField(max_length=4, choices=PC_CATEGORIES)
     processor = models.CharField(max_length=255)

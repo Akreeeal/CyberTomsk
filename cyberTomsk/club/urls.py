@@ -1,11 +1,13 @@
 from django.urls import path
-from .views import ComputersList, ReservationsList, ReservationView
+from .views import ComputersListView, ReservationsList, ReservationView, index, ComputersDetailView
 
 
 app_name = 'club'
 
 urlpatterns=[
-    path('pc_list/', ComputersList.as_view(), name='ComputersList'),
+    path('', index, name='home'),
+    path('pc_list/', ComputersListView.as_view(), name='ComputersList'),
     path('res_list/', ReservationsList.as_view(), name='ReservationsList'),
-    path('res/', ReservationView.as_view(), name='reservation_view'),
+    path('reserve/', ReservationView.as_view(), name='ReservationView'),
+    path('res/<category>', ComputersDetailView.as_view(), name='ComputersDetailView')
 ]
