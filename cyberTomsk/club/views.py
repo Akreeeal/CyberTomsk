@@ -39,6 +39,13 @@ def ComputersListView(request):
 
 class ReservationsList(ListView):
     model = Reservation
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            reservation_list = Reservation.objects.all()
+            return reservation_list
+        else:
+            reservation_list = Reservation.objects.filter(user=self.request.user)
+            return reservation_list
 
 
 class ComputersDetailView(View):
@@ -103,8 +110,7 @@ class ReservationView(FormView):
         if len(available_computers) > 0:
             computer = available_computers[0]
             reserve = Reservation.objects.create(
-                # user=self.request.user,
-                # user = None,
+                user=request.user,
                 computer=computer,
                 start_session=data['start_session'],
                 stop_session=data['stop_session']
