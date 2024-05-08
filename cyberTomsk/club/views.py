@@ -1,7 +1,9 @@
 from django.shortcuts import render, HttpResponse
 from django.views.generic import ListView, FormView, View
 from .models import Computer, Reservation
+from django.urls import reverse
 from .forms import AvailabilityForm
+from datetime import timedelta
 # from reservations_functions.availability import check_availability
 
 # Create your views here.
@@ -9,7 +11,7 @@ from .forms import AvailabilityForm
 menu = ['Аренда', 'Отзывы', 'Войти']
 
 def index(request):
-    return render(request, 'club/index.html', {'title': 'Главная страница'})
+    return render(request, 'club/index.html', {'title': 'Главная страница'}, {'menu': menu})
 
 def check_availability(computer, start_session, stop_session):
     avail_list = []
@@ -21,8 +23,19 @@ def check_availability(computer, start_session, stop_session):
             avail_list.append(False)
     return all(avail_list)
 
-class ComputersListView(ListView):
-    model = Computer
+def ComputersListView(request):
+    computer = Computer.objects.all()[0]
+    computer_categories = dict(computer.PC_CATEGORIES)
+    computer_values = computer_categories.values()
+    computer_list = []
+    for computer_category in computer_categories:
+        computer = computer_categories.get(computer_category)
+        computer_url = reverse('club:ComputersDetailView', kwargs={'category': computer_category})
+        computer_list.append((computer, computer_url))
+    context={
+        'computer_list': computer_list
+    }
+    return render(request, 'club/computer_list.html', context)
 
 class ReservationsList(ListView):
     model = Reservation
@@ -51,10 +64,12 @@ class ComputersDetailView(View):
 
         if form.is_valid():
             data = form.cleaned_data
+            hours = data.get('hours')
 
         available_computers = []
         for computer in computer_list:
-            if check_availability(computer, data['start_session'], data['stop_session']):
+            stop_session = data['start_session'] + timedelta(hours=hours)
+            if check_availability(computer, data['start_session'], stop_session):
                 available_computers.append(computer)
         if len(available_computers) > 0:
             computer = available_computers[0]
@@ -63,12 +78,13 @@ class ComputersDetailView(View):
                 # user = None,
                 computer=computer,
                 start_session=data['start_session'],
-                stop_session=data['stop_session']
+                stop_session=stop_session
             )
             reserve.save()
             return HttpResponse(reserve)
         else:
             return HttpResponse('NON-Done')
+
 
 
 

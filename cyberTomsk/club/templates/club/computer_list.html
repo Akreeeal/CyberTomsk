@@ -6,8 +6,12 @@
 </head>
 <body>
 
-    {% for computer in  computer_list %}
-    <h2>{{ computer }}</h2>
+    {% for computer_category, computer_url in  computer_list %}
+    <div class="computer">
+        <a href="{{ computer_url }}">
+            <h2>{{ computer_category }}</h2>
+        </a>
+    </div>
     {% endfor %}
 
 </body>
