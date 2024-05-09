@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse
-from django.views.generic import ListView, FormView, View
+from django.views.generic import ListView, FormView, View, DeleteView
 from .models import Computer, Reservation
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from .forms import AvailabilityForm
 from datetime import timedelta
 
@@ -143,3 +143,7 @@ class ReservationView(FormView):
             return HttpResponse('NON-Done')
 
 
+class CancelBookingView(DeleteView):
+    model = Reservation
+    template_name = 'club/booking_cancel_view.html'
+    success_url = reverse_lazy('club:ReservationsList')

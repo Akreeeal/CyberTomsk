@@ -48,8 +48,8 @@
 <div class="form-container">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Принять</button>
+        <h2>Уверены, что хотите отменить бронирование {{ reservation.get_computer_category }} {{ reservation }}</h2>
+        <button type="submit">Отменить бронирование</button>
     </form>
 </div>
 {% endblock %}

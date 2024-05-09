@@ -1,12 +1,13 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
+
 
 class Computer(models.Model):
     PC_CATEGORIES=(
         ('STD', 'STANDARD'),
         ('VIP', 'VIP'),
         ('BTC', 'BOOTCAMP'),
-        ('PS5', 'PLAYSTATION')
     )
     category = models.CharField(max_length=4, choices=PC_CATEGORIES)
     number = models.IntegerField(default=1)
@@ -28,3 +29,10 @@ class Reservation(models.Model):
     def __str__(self):
         return f' {self.user} has reserved {self.computer} from {self.start_session} to {self.stop_session}'
 
+    def get_computer_category(self):
+        computer_categories = dict(self.computer.PC_CATEGORIES)
+        computer_category = computer_categories.get(self.computer.category)
+        return computer_category
+
+    def get_cancel_reservation_url(self):
+        return reverse('club:CancelBookingView', args=[self.pk, ])

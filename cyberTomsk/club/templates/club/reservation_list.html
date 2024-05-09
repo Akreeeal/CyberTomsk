@@ -5,8 +5,24 @@
     <title>Reservations</title>
 </head>
 <body>
-    {% for reservation in  reservation_list %}
-    <h3>{{ reservation }}</h3>
-    {% endfor %}
+<div class="bookings">
+            {% for reservation in reservation_list %}
+            <div class="booking">
+                <div class="category">
+                    <h2>{{reservation.get_computer_category}}</h2>
+                </div>
+                <div class="from">
+                    <h3>From: {{reservation.start_session}}</h3>
+                </div>
+                <div class="to">
+                    <h3>To: {{reservation.stop_session}}</h3>
+                </div>
+                <div class="cancel"><a href="{{reservation.get_cancel_reservation_url}}" class="invisible"><i
+                            class="far fa-2x fa-times-circle"> Cancel
+                            Booking</i></a></div>
+            </div>
+            {% endfor %}
+        </div>
+
 </body>
 </html>
