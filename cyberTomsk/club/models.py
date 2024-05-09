@@ -19,14 +19,6 @@ class Computer(models.Model):
         return f'{self.category} PC number {self.number}'
 
 
-class TempUser(models.Model):
-    username = models.CharField(max_length=150)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    email = models.EmailField()
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = []
-
 class Reservation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE)
@@ -36,12 +28,3 @@ class Reservation(models.Model):
     def __str__(self):
         return f' {self.user} has reserved {self.computer} from {self.start_session} to {self.stop_session}'
 
-
-# class Reserve(models.Model):
-#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     computer = models.ForeignKey(Computer, on_delete=models.CASCADE)
-#     start_session = models.DateTimeField()
-#     stop_session = models.DateTimeField()
-#
-#     def __str__(self):
-#         return f' {self.user} has reserved {self.computer} from {self.start_session} to {self.stop_session}'

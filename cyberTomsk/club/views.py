@@ -1,10 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse
 from django.views.generic import ListView, FormView, View
 from .models import Computer, Reservation
 from django.urls import reverse
 from .forms import AvailabilityForm
 from datetime import timedelta
-# from reservations_functions.availability import check_availability
+
 
 # Create your views here.
 
@@ -81,8 +82,7 @@ class ComputersDetailView(View):
         if len(available_computers) > 0:
             computer = available_computers[0]
             reserve = Reservation.objects.create(
-                # user=self.request.user,
-                # user = None,
+                user=request.user,
                 computer=computer,
                 start_session=data['start_session'],
                 stop_session=stop_session
