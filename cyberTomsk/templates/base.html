@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Компьютерный клуб</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://catherineasquithgallery.com/uploads/posts/2021-03/1615816389_72-p-fon-khaitek-95.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        header {
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            overflow: hidden;
+        }
+        header img {
+            float: left;
+            height: 50px;
+            margin-right: 20px;
+        }
+        nav {
+            float: right;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+            padding: 5px 10px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #fff;
+            color: #333;
+            border-color: #333;
+        }
+        .main-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .main-content button {
+            padding: 30px 60px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .main-content button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{% url 'club:home' %}">
+        <img src="https://i.imgur.com/uLR2fmB.png" alt="Логотип компьютерного клуба">
+        </a>
+        <nav>
+            <a href="{% url 'club:ComputersList' %}">Аренда</a>
+            <a href="#">Отзывы</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'users:logout' %}">{{ user.username }} | Выйти</a>
+            {% else %}
+            <a href="{% url 'users:login' %}">Войти</a> | <a href="{% url 'users:register' %}">Регистрация</a>
+            {% endif %}
+        </nav>
+    </header>
+    {% block content %} {% endblock %}
+</body>
+</html>

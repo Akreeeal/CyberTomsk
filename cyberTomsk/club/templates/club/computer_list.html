@@ -1,18 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>PC List</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    {% for computer_category, computer_url in  computer_list %}
-    <div class="computer">
-        <a href="{{ computer_url }}">
-            <h2>{{ computer_category }}</h2>
-        </a>
-    </div>
+{% block content %}
+
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5); /* Затемненный цвет с прозрачностью */
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .computer {
+        margin: 10px;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.2); /* Цвет плитки с прозрачностью */
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Тень */
+        text-align: center; /* Выравнивание текста по центру */
+        transition: all 0.3s ease; /* Плавный переход */
+    }
+
+    .computer:hover {
+        transform: translateY(-5px); /* Небольшое поднятие при наведении */
+    }
+
+    .computer a {
+        text-decoration: none;
+        color: #ffffff; /* Белый цвет текста */
+    }
+
+    .computer h2 {
+        font-size: 24px; /* Большой размер текста */
+        margin-bottom: 10px;
+    }
+
+    .computer img {
+        width: 400px; /* Ширина фотографии */
+        height: auto; /* Высота фотографии */
+        border-radius: 10px; /* Закругление углов фотографии */
+        margin-bottom: 10px;
+    }
+
+    .computer p {
+        font-size: 16px; /* Размер текста плитки */
+        margin: 5px 0;
+        color: #ffffff; /* Белый цвет текста */
+    }
+
+    .computer p strong {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container">
+    {% for computer_category, computer_url in computer_list %}
+        <div class="computer">
+            <a href="{{ computer_url }}">
+                <h2>{{ computer_category }}</h2>
+                {% for photo in photo_urls %}
+                    {% if forloop.counter0 == forloop.parentloop.counter0 %}
+                        <img src="{{ photo }}" alt="{{ computer_category }}">
+                    {% endif %}
+                {% endfor %}
+                {% if computer_category == 'VIP' %}
+    <p>Элитное пространство с высококлассными компьютерами, мониторами высокой частоты обновления и эксклюзивной периферией. Компьютеры оснащены процессорами <strong>Intel Core i5 12600K</strong> и видеокартами <strong>RTX 3070 8Gb</strong>. <br> <strong>Стоимость аренды - 100 рублей в час.</strong></p>
+{% endif %}
+{% if computer_category == 'BOOTCAMP' %}
+    <p>Зона для тех, кто стремится к высоким результатам, с мощными компьютерами и удобной игровой инфраструктурой. Компьютеры оснащены процессорами <strong>Intel Core i5 12600K</strong> и видеокартами <strong>RTX 3070 8Gb</strong>. <br> <strong>Стоимость аренды - 250 рублей в час (за аренду пяти компьютеров).</strong></p>
+{% endif %}
+{% if computer_category == 'STANDARD' %}
+    <p>Уютное игровое пространство с умеренной стоимостью аренды и стабильной производительностью компьютеров, оснащенных процессорами <strong>Intel Core i5 12400f</strong> и видеокартами <strong>RTX 3060 12Gb</strong>. <br> <strong>Стоимость аренды - 70 рублей в час.</strong></p>
+{% endif %}
+
+            </a>
+        </div>
     {% endfor %}
+</div>
 
-</body>
-</html>
+{% endblock %}
