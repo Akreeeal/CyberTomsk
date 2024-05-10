@@ -116,34 +116,7 @@ class ComputersDetailView(View):
 
 
 
-
-
-class ReservationView(FormView):
-    form_class = AvailabilityForm
-    template_name = 'club/availability_form.html'
-
-    def form_valid(self, form):
-        data = form.cleaned_data
-        computer_list = Computer.objects.filter(category=data['pc_category'])
-        available_computers = []
-        for computer in computer_list:
-            if check_availability(computer, data['start_session'], data['stop_session']):
-                available_computers.append(computer)
-        if len(available_computers) > 0:
-            computer = available_computers[0]
-            reserve = Reservation.objects.create(
-                user=request.user,
-                computer=computer,
-                start_session=data['start_session'],
-                stop_session=data['stop_session']
-            )
-            reserve.save()
-            return HttpResponse(reserve)
-        else:
-            return HttpResponse('NON-Done')
-
-
 class CancelBookingView(DeleteView):
     model = Reservation
-    template_name = 'club/booking_cancel_view.html'
+    template_name = 'club/reservation_cancel_view.html'
     success_url = reverse_lazy('club:ReservationsList')

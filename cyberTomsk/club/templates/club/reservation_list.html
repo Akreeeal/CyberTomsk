@@ -1,28 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reservations</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .container {
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.booking {
+    flex: 1 1 calc(30% - 20px); /* Ширина плитки примерно треть ширины экрана с отступами по 20 пикселей */
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.booking:hover .cancel {
+    visibility: visible;
+}
+
+.cancel {
+    position: absolute;
+    bottom: 10px; /* Помещаем кнопку "Отменить бронирование" внизу плитки */
+    left: 20%; /* Помещаем кнопку "Отменить бронирование" по центру горизонтально */
+    transform: translateX(-50%); /* Центрируем кнопку "Отменить бронирование" относительно ширины плитки */
+    visibility: hidden;
+    color: red;
+}
+
+.booking:hover .cancel {
+    visibility: visible;
+}
+
+.cancel a {
+    text-decoration: none;
+    color: inherit; /* Используем цвет текста плитки */
+    font-weight: bold; /* Жирный текст */
+}
+
+.booking h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.booking h3 {
+    margin: 5px 0;
+
+}
+
+.booking:hover {
+    transform: translateY(-5px);
+}</style>
+
 <div class="bookings">
             {% for reservation in reservation_list %}
             <div class="booking">
                 <div class="category">
-                    <h2>{{reservation.get_computer_category}}</h2>
+                    <h2>Заказ: {{reservation.get_computer_category}} от {{ reservation.user }}</h2>
+                </div>
+                <div class="number">
+                    <h3>Компьютер № {{ reservation.computer.number }}</h3>
                 </div>
                 <div class="from">
-                    <h3>From: {{reservation.start_session}}</h3>
+                    <h3>С {{ reservation.start_session|date:"d/m, H:i" }}</h3>
                 </div>
                 <div class="to">
-                    <h3>To: {{reservation.stop_session}}</h3>
+                    <h3>До {{ reservation.stop_session|date:"d/m, H:i" }}</h3>
                 </div>
                 <div class="cancel"><a href="{{reservation.get_cancel_reservation_url}}" class="invisible"><i
-                            class="far fa-2x fa-times-circle"> Cancel
-                            Booking</i></a></div>
-            </div>
+                            class="far fa-2x fa-times-circle"> Отменить бронирование</i></a></div>
+                </div>
             {% endfor %}
         </div>
 
-</body>
-</html>
+{% endblock %}
