@@ -14,7 +14,7 @@
 
     form {
         width: 300px; /* Ширина формы */
-        background-color: rgba(255, 255, 255, 0.2); /* Цвет формы с прозрачностью */
+        background-color: rgba(255, 255, 255, 0.4); /* Цвет формы с прозрачностью */
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Тень */
@@ -48,7 +48,7 @@
 <div class="form-container">
     <form method="post">
         {% csrf_token %}
-        <h2>Уверены, что хотите отменить бронирование {{ reservation.get_computer_category }} {{ reservation }}</h2>
+        <h2>Уверены, что хотите отменить бронирование {{ reservation.get_computer_category }} на {{ reservation.start_session|date:"d/m, H:i" }}</h2>
         <button type="submit">Отменить бронирование</button>
     </form>
 </div>
