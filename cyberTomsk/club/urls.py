@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ComputersListView, ReservationsList, index, ComputersDetailView, about, feedback, home_page, CancelBookingView
+from .views import ComputersListView, ReservationsList, index, ComputersDetailView, about, feedback, home_page, CancelBookingView, AddReview
 
 
 app_name = 'club'
@@ -12,4 +12,5 @@ urlpatterns=[
     path('res_list/', ReservationsList.as_view(), name='ReservationsList'),
     path('res/<category>', ComputersDetailView.as_view(), name='ComputersDetailView'),
     path('res/cancel/<pk>', CancelBookingView.as_view(), name='CancelBookingView'),
+    path('review/<int:category>/', AddReview.as_view(), name='add_review'),
 ]

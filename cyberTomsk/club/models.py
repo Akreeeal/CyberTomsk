@@ -36,3 +36,20 @@ class Reservation(models.Model):
 
     def get_cancel_reservation_url(self):
         return reverse('club:CancelBookingView', args=[self.pk, ])
+
+class Review(models.Model):
+    email = models.EmailField()
+    name = models.CharField('Имя', max_length=100)
+    text = models.TextField('Сообщение', max_length=5000)
+    parent = models.ForeignKey(
+        'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True
+    )
+    computer = models.ForeignKey(Computer, verbose_name='Компьютер', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.name} PC number {self.computer}'
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+

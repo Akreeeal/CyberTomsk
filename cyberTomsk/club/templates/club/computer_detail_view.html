@@ -14,7 +14,7 @@
 
     form {
         width: 300px; /* Ширина формы */
-        background-color: rgba(255, 255, 255, 0.2); /* Цвет формы с прозрачностью */
+        background-color: rgba(255, 255, 255, 0.4); /* Цвет формы с прозрачностью */
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Тень */
@@ -28,6 +28,9 @@
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        margin: 0 auto; /* Центрирование кнопки Принять */
+        display: block; /* Делаем кнопку блочным элементом, чтобы задать ширину */
+        margin-top: 10px; /* Отступ между кнопкой и остальными элементами формы */
     }
 
     form button:hover {
@@ -36,20 +39,66 @@
 
     /* Стиль для выбора даты */
     .date-input {
-        width: 100%;
+        width: calc(100% - 42px); /* Ширина поля с учетом отступов от краев */
         padding: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 15px; /* Отступ между полем и кнопками выбора часов */
         border-radius: 5px;
         border: 1px solid #ccc;
         box-sizing: border-box;
+        font-weight: bold; /* Увеличиваем жирность текста */
+    }
+
+    /* Стиль для кнопок выбора часов */
+    .hours-btn {
+        background-color: #f0f0f0; /* Светлый серый цвет для кнопок */
+        color: #333; /* Цвет текста */
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-right: 10px; /* Отступ между кнопками */
+        font-weight: bold; /* Увеличиваем жирность текста */
+        margin-top: 10px; /* Отступ между кнопкой и остальными элементами формы */
+    }
+
+    .hours-btn:hover {
+        background-color: #ddd; /* Светлый серый цвет при наведении */
     }
 </style>
 
 <div class="form-container">
-    <form method="post">
+    <form id="availability-form" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="form-title"><h2>Бронирование ПК</h2></div>
+        <div class="form-group">
+            <label for="id_start_session">Дата и время</label>
+            {{ form.start_session }}
+        </div>
+        <div class="form-group">
+            <label for="hours">Выберите продолжительность</label><br>
+            <input type="button" id="hours-1" class="hours-btn" value="1 час">
+            <input type="button" id="hours-3" class="hours-btn" value="3 часа">
+            <input type="button" id="hours-8" class="hours-btn" value="8 часов">
+        </div>
+        <input type="hidden" name="hours" id="selected-hours" value="">
         <button type="submit">Принять</button>
     </form>
 </div>
+
+<script>
+    // Получаем все кнопки с классом .hours-btn
+    var hoursBtns = document.querySelectorAll('.hours-btn');
+    // Для каждой кнопки добавляем обработчик события click
+    hoursBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            // Получаем значение часов из кнопки
+            var hoursValue = parseInt(this.value);
+            // Устанавливаем это значение в скрытое поле с id="selected-hours"
+            document.getElementById('selected-hours').value = hoursValue;
+            // Опционально: Показываем пользователю, какое количество часов было выбрано
+            alert('Выбрано: ' + hoursValue + ' часов');
+        });
+    });
+</script>
 {% endblock %}
