@@ -102,9 +102,17 @@ class ComputersDetailView(View):
                 reserve.save()
                 return redirect('club:ReservationsList')
             else:
-                return HttpResponse('На данное время все компьютеры этой категории заняты. Попробуйте выбрать другое время ')
+                context = {
+                    'form': form,
+                    'alert_message': 'На данное время все компьютеры этой категории заняты. Попробуйте выбрать другое время'
+                }
+            return render(request, 'club/computer_detail_view.html', context)
         else:
-            return HttpResponse('Форма недействительна. Пожалуйста, заполните форму корректно.')
+            context = {
+                'form': form,
+                'alert_message': 'Форма недействительна. Пожалуйста, заполните форму корректно.'
+            }
+            return render(request, 'club/computer_detail_view.html', context)
 
 
 class CancelBookingView(DeleteView):

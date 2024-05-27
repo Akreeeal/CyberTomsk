@@ -100,5 +100,9 @@
             alert('Выбрано: ' + hoursValue + ' часов');
         });
     });
+    // Проверяем наличие alert_message в контексте
+    {% if alert_message %}
+        alert("{{ alert_message }}");
+    {% endif %}
 </script>
 {% endblock %}
