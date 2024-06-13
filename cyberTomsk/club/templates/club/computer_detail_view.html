@@ -89,6 +89,8 @@
 <script>
     // Получаем все кнопки с классом .hours-btn
     var hoursBtns = document.querySelectorAll('.hours-btn');
+
+
     // Для каждой кнопки добавляем обработчик события click
     hoursBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
@@ -96,10 +98,10 @@
             var hoursValue = parseInt(this.value);
             // Устанавливаем это значение в скрытое поле с id="selected-hours"
             document.getElementById('selected-hours').value = hoursValue;
-            // Опционально: Показываем пользователю, какое количество часов было выбрано
-            alert('Выбрано: ' + hoursValue + ' часов');
+
         });
     });
+
     // Проверяем наличие alert_message в контексте
     {% if alert_message %}
         alert("{{ alert_message }}");

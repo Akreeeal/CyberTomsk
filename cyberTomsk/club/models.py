@@ -15,16 +15,27 @@ class Computer(models.Model):
     ram = models.CharField(max_length=255)
     graphics_card = models.CharField(max_length=255)
     vram = models.CharField(max_length=255)
+    hours_cost = models.IntegerField()
 
     def __str__(self):
         return f'{self.category} PC number {self.number}'
 
+    def save(self, *args, **kwargs):
+        category_cost_mapping = {
+            'STD': 70,
+            'VIP': 100,
+            'BTC': 250,
+        }
+        if self.category in category_cost_mapping:
+            self.hours_cost = category_cost_mapping[self.category]
+        super().save(*args, **kwargs)
 
 class Reservation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     computer = models.ForeignKey(Computer, on_delete=models.CASCADE)
     start_session = models.DateTimeField()
     stop_session = models.DateTimeField()
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
     def __str__(self):
         return f' {self.user} has reserved {self.computer} from {self.start_session} to {self.stop_session}'

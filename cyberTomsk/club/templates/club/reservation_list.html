@@ -70,6 +70,9 @@
                 <div class="to">
                     <h3>До {{ reservation.stop_session|date:"d/m, H:i" }}</h3>
                 </div>
+                <div class="cost">
+                    <h3>Стоимость: {{ reservation.total_cost }} рублей</h3>
+                </div>
                 <div class="cancel"><a href="{{reservation.get_cancel_reservation_url}}" class="invisible"><i
                             class="far fa-2x fa-times-circle"> Отменить бронирование</i></a></div>
                 </div>

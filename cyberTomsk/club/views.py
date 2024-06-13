@@ -93,11 +93,13 @@ class ComputersDetailView(View):
                     available_computers.append(computer)
             if len(available_computers) > 0:
                 computer = available_computers[0]
+                total_cost = hours * computer.hours_cost
                 reserve = Reservation.objects.create(
                     user=request.user,
                     computer=computer,
                     start_session=data['start_session'],
-                    stop_session=stop_session
+                    stop_session=stop_session,
+                    total_cost=total_cost
                 )
                 reserve.save()
                 return redirect('club:ReservationsList')
@@ -110,7 +112,7 @@ class ComputersDetailView(View):
         else:
             context = {
                 'form': form,
-                'alert_message': 'Форма недействительна. Пожалуйста, заполните форму корректно.'
+                'alert_message': 'Форма недействительна. Пожалуйста, заполните форму корректно. Выберете количесво часов сессии'
             }
             return render(request, 'club/computer_detail_view.html', context)
 

@@ -14,7 +14,7 @@ class LoginUsers(LoginView):
     extra_context = { 'title': 'Авторизация'}
 
     # def get_success_url(self):
-    #     return reverse_lazy('club:home')
+    #     return reverse_lazy('users:profile')
 
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
